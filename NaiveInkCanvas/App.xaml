@@ -1,0 +1,18 @@
+﻿<Application
+    x:Class="NaiveInkCanvas.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:NaiveInkCanvas"
+    xmlns:vm="using:NaiveInkCanvas.ViewModel"
+    RequestedTheme="Light">
+    <Application.Resources>
+        <ResourceDictionary>
+            <vm:ViewModelLocator x:Key="Locator"/>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Style/NormalButton.xaml"/>
+                <ResourceDictionary Source="/hsv/Themes/Generic.xaml"/>
+                <ResourceDictionary Source="GraphicsMgar/Controls/ControlResources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

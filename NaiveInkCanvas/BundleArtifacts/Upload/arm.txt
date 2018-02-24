@@ -1,0 +1,3 @@
+MainPackage=C:\Users\HongShaoRou\Documents\Visual Studio 2015\Projects\NaiveInkCanvas\NaiveInkCanvas\bin\ARM\Release\Upload\NaiveInkCanvas_1.0.0.0_ARM.appx
+SymbolPackage=C:\Users\HongShaoRou\Documents\Visual Studio 2015\Projects\NaiveInkCanvas\NaiveInkCanvas\AppPackages\NaiveInkCanvas_1.0.0.0\NaiveInkCanvas_1.0.0.0_ARM.appxsym
+ResourcePack=C:\Users\HongShaoRou\Documents\Visual Studio 2015\Projects\NaiveInkCanvas\NaiveInkCanvas\_scale-100.appx

@@ -1,0 +1,227 @@
+﻿<Page
+    x:Class="NaiveInkCanvas.View.SingCanvasView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:NaiveInkCanvas.Model.NewModels"
+    xmlns:con="using:NaiveInkCanvas.Controls"
+    xmlns:converter="using:NaiveInkCanvas.Converter"
+    xmlns:bck="using:NaiveInkCanvas.Background.Models"
+    mc:Ignorable="d" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+    x:Name="page"
+    DataContext="{Binding Source={StaticResource Locator},Path=CanvasVM}"
+    Loaded="Page_Loaded">
+    <Page.Resources>
+        <converter:LayerToCanvasConverter x:Key="LayerToCanvasConverter"/>
+        <converter:ObjectExchangeUIElementConverter x:Key="ObjectExchangeUIElementConverter"/>
+        <Style x:Key="NormalListViewItem"
+               TargetType="ListViewItem">
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        </Style>
+    </Page.Resources>
+    <Grid x:Name="rootGrid" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Border x:Name="RootTitle"
+                Background="LightGray"
+                BorderThickness="0.7"
+                BorderBrush="Black">
+            <Grid x:Name="RootGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="BorderBrush" Value="Transparent"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="VerticalAlignment" Value="Stretch"/>
+                        <Setter Property="MinHeight" Value="50"/>
+                        <Setter Property="Margin" Value="10,0"/>
+                    </Style>
+                </Grid.Resources>
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="btnHeadMenu">
+                        <SymbolIcon Symbol="Memo"/>
+                        <Button.Flyout>
+                            <Flyout>
+                                <ListView x:Name="lstvMenus"
+                                          ItemsSource="{x:Bind ViewModel.HeadMenus}"
+                                          SelectionMode="Extended"
+                                          SelectionChanged="lstvMenus_SelectionChanged">
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem">
+                                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                            <Setter Property="VerticalAlignment" Value="Stretch"/>
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate x:DataType="model:MenuModel">
+                                            <StackPanel Orientation="Horizontal"
+                                                        Tag="{x:Bind}"
+                                                        PointerPressed="StackPanel_PointerPressed">
+                                                <SymbolIcon Symbol="{x:Bind Ico}"/>
+                                                <TextBlock Text="{x:Bind Text}"
+                                                       Margin="15,0,0,0"
+                                                       FontSize="22"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                    <AppBarSeparator/>
+                </StackPanel>
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <ScrollViewer Grid.Column="0"
+                              HorizontalScrollBarVisibility="Auto"
+                              VerticalScrollBarVisibility="Disabled">
+                        <ListView x:Name="LstvLayers"                          
+                              ItemsSource="{x:Bind ViewModel.Layers}"
+                              SelectionChanged="LstvLayers_SelectionChanged"
+                              ItemContainerStyle="{StaticResource NormalListViewItem}">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <ItemsWrapGrid Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="model:LayerModel">
+                                    <Grid x:Name="LayerGrid"
+                                          PointerPressed="LayerGrid_PointerPressed">
+                                        <TextBlock x:Name="TxbName"
+                                                   FontSize="18"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Center"    
+                                                   Text="{x:Bind Name}"
+                                                   PointerPressed="LayerGrid_PointerPressed">                                                                                    
+                                             <FlyoutBase.AttachedFlyout>
+                                                <Flyout>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <TextBox x:Name="TxtLayerName"
+                                                                 MinWidth="100"
+                                                                 Text="{x:Bind Name,Mode=TwoWay}"
+                                                                 FontSize="15"/>
+                                                        <ToggleSwitch x:Name="TsIsAppearSetting"
+                                                                      IsOn="{x:Bind IsAppear,Mode=TwoWay}"
+                                                                      OnContent="显示"
+                                                                      OffContent="不显示" Toggled="TsIsAppearSetting_Toggled"/>
+                                                    </StackPanel>
+                                                </Flyout>
+                                            </FlyoutBase.AttachedFlyout>
+                                        </TextBlock>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </ScrollViewer>
+                    <StackPanel Grid.Column="1"
+                                Orientation="Horizontal">
+                        <Button x:Name="BtnReconverte"
+                                Style="{StaticResource NoBackgroundButton}"
+                                ToolTipService.ToolTip="撤销"
+                                Command="{x:Bind ViewModel.ReconverteCommand}">
+                            <SymbolIcon Symbol="Undo"/>
+                        </Button>
+                        <Button x:Name="BtnRodo"
+                                Style="{StaticResource NoBackgroundButton}"
+                                ToolTipService.ToolTip="重做"
+                                RenderTransformOrigin="0.5,0.5"
+                                Command="{x:Bind ViewModel.RedoCommand}">
+                            <Button.RenderTransform>
+                                <CompositeTransform Rotation="180"/>
+                            </Button.RenderTransform>
+                            <SymbolIcon Symbol="Undo"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+                <StackPanel Orientation="Horizontal"
+                            Grid.Column="2">
+                    <AppBarSeparator/>
+                    <Button x:Name="btnPathMenu">
+                        <SymbolIcon Symbol="Help"/>
+                        <Button.Flyout>
+                            <Flyout>
+                                <ListView x:Name="lvMenus"
+                                          SelectionMode="Extended"
+                                          ItemsSource="{x:Bind ViewModel.MenuContexts}">
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem">
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate x:DataType="model:MenuContextModel">
+                                            <StackPanel x:Name="SpMenu"
+                                                        Orientation="Horizontal"
+                                                        Tag="{x:Bind}"
+                                                        ToolTipService.ToolTip="{x:Bind Text}"
+                                                        PointerPressed="SpMenu_PointerPressed">
+                                                <SymbolIcon Symbol="{x:Bind SymbolIco}"/>
+                                                <TextBlock Margin="20,0,0,0"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="22"
+                                                           Text="{x:Bind Text}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+        <Grid x:Name="ContentGrid"
+              Grid.Row="1">
+            <Border x:Name="BackgroundBorder"
+                    Child="{x:Bind ViewModel.MainCanvas}">
+                <!--背景控件绑定-->
+            </Border>
+            <Grid x:Name="PaintGrid">
+                <Canvas x:Name="LayerCanvas"                        
+                        SizeChanged="LayerCanvas_SizeChanged"
+                        KeyDown="LayerCanvas_KeyDown"
+                        Background="DarkGray"
+                        PointerPressed="LayerCanvas_PointerPressed">
+                    <FlyoutBase.AttachedFlyout>
+                        <Flyout>
+                            <ListView x:Name="LstvBackgrounds"
+                                      ItemsSource="{x:Bind BackgroundMgar.Backgrounds}">
+                            </ListView>
+                        </Flyout>
+                    </FlyoutBase.AttachedFlyout>
+                    <ScrollViewer x:Name="LocalLayer"
+                                  HorizontalScrollBarVisibility="Auto"
+                                  VerticalScrollBarVisibility="Auto"
+                                  ZoomMode="Enabled">
+                        <Grid x:Name="LayersGrid"
+                              Background="White"
+                              Width="{x:Bind ViewModel.CanvasSize.Width}"
+                              Height="{x:Bind ViewModel.CanvasSize.Height}">
+                            <Canvas x:Name="BackgroundsCanvas">
+                            </Canvas>
+                            <Grid x:Name="OtherLayesGird"
+                                  Background="Transparent"/>
+                        </Grid>
+                    </ScrollViewer>
+                </Canvas>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

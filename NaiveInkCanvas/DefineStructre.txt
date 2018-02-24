@@ -1,0 +1,8 @@
+﻿
+使用Win2d进行绘画
+
+画布使用ViewBox镶嵌
+
+每一只笔都有一个ColorPicker控件
+
+分图层，每一个图层是一个CanvasControl

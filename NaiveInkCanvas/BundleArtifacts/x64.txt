@@ -1,0 +1,2 @@
+MainPackage=C:\Users\HongShaoRou\Documents\Visual Studio 2015\Projects\NaiveInkCanvas\NaiveInkCanvas\bin\x64\Release\NaiveInkCanvas_1.0.0.0_x64.appx
+SymbolPackage=C:\Users\HongShaoRou\Documents\Visual Studio 2015\Projects\NaiveInkCanvas\NaiveInkCanvas\AppPackages\NaiveInkCanvas_1.0.0.0_Test\NaiveInkCanvas_1.0.0.0_x64.appxsym

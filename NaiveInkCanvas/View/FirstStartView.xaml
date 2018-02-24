@@ -1,0 +1,42 @@
+﻿<Page
+    x:Class="NaiveInkCanvas.View.FirstStartView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:NaiveInkCanvas.View"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Loaded="Page_Loaded">
+
+    <Grid x:Name="grid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.Resources>
+            <Storyboard x:Key="sbStart">
+                <DoubleAnimation Storyboard.TargetName="txbTitle" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:1.5" BeginTime="0:0:0.5"/>
+            </Storyboard>
+            <Storyboard x:Name="sbStartTwo">
+                <DoubleAnimation Storyboard.TargetName="txbTitle" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:1.5" BeginTime="0:0:1"/>
+            </Storyboard>
+            <Storyboard x:Key="sbShowBtn">
+                <DoubleAnimation Storyboard.TargetName="btnHello" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:1" BeginTime="0:0:0.5"/>
+            </Storyboard>
+            <Storyboard x:Key="sbExitBtn">
+                <DoubleAnimation Storyboard.TargetName="btnHello" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:1" BeginTime="0:0:0.5"/>
+            </Storyboard>
+        </Grid.Resources>
+        <TextBlock x:Name="txbTitle" FontSize="25" Opacity="0" TextWrapping="Wrap" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Microsoft YaHei UI" RenderTransformOrigin="0.5,0.5"/>
+        <Button x:Name="btnHello" HorizontalAlignment="Center" Click="btnHello_Click" PointerEntered="btnHello_PointerEntered" PointerExited="btnHello_PointerExited" Opacity="0" Content="开启" FontSize="25" Background="Transparent" BorderThickness="1" BorderBrush="Black" VerticalAlignment="Center" Height="50" Width="300" FontFamily="Microsoft YaHei UI">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border CornerRadius="8"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
+                                          FontSize="{TemplateBinding FontSize}"
+                                          FontWeight="{TemplateBinding FontWeight}"
+                                          Foreground="{TemplateBinding Foreground}"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+    </Grid>
+</Page>
