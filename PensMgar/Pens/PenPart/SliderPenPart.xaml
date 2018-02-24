@@ -1,0 +1,28 @@
+﻿<part:PenPartControlBase
+    x:Class="NaiveInkCanvas.Pens.PenPart.SliderPenPart"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:part="using:NaiveInkCanvas.Pens.PenPart.PenPartDefs"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    HorizontalAlignment="Stretch"
+    VerticalAlignment="Stretch"
+    Loaded="PenPartControlBase_Loaded">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="{x:Bind Text}"
+                   VerticalAlignment="Center"
+                   FontSize="20"
+                   Margin="0,0,30,0"/>
+        <Slider x:Name="SdrValue"
+                Grid.Column="1"
+                Maximum="{x:Bind Bounds.Right}"
+                Minimum="{x:Bind Bounds.Left}"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"/>
+    </Grid>
+</part:PenPartControlBase>
